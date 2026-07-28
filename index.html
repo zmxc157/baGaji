@@ -159,8 +159,8 @@
         <h1 class="main-title">这款游戏很快就<br>不再属于您。</h1>
 
         <div class="countdown-box" id="countdownBox">
-            <div class="timer-display" id="timer">预计 00天 00时 00分 00秒</div>
-            <div class="timer-label" id="timerLabel">服务器维护结束后</div>
+            <div class="timer-display" id="timer">00天 00时 00分 00秒</div>
+            <div class="timer-label" id="timerLabel">服务器维护结束后（预计）</div>
         </div>
 
         <div class="impact-section">
@@ -240,7 +240,7 @@
             const m = String(minutes).padStart(2, '0');
             const s = String(seconds).padStart(2, '0');
 
-            timerElement.innerText = `预计 ${d}天 ${h}时 ${m}分 ${s}秒`;
+            timerElement.innerText = `${d}天 ${h}时 ${m}分 ${s}秒`;
         }
 
         updateTimer();
