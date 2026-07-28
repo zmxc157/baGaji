@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基沃托斯倒计时 - 游戏已不再属于您</title>
+    <style>
+        :root {
+            --primary-red: #d32f2f;
+            --bg-color: #ffffff;
+            --text-main: #222222;
+            --text-secondary: #555555;
+            --light-bg: #f9f9f9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 760px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1.main-title {
+            color: var(--primary-red);
+            font-size: clamp(1.8rem, 5vw, 2.4rem);
+            font-weight: 800;
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+
+        .countdown-box {
+            background-color: var(--primary-red);
+            color: white;
+            border-radius: 20px;
+            padding: clamp(20px, 5vw, 40px) 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(211, 47, 47, 0.2);
+        }
+
+        .timer-display {
+            font-size: clamp(2rem, 10vw, 4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 10px;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        .timer-label { font-size: clamp(0.9rem, 2.5vw, 1.1rem); opacity: 0.9; }
+        .ended-message { font-size: clamp(1.5rem, 6vw, 2.5rem); font-weight: bold; }
+
+        /* 影响板块 */
+        .impact-section { text-align: left; margin-bottom: 40px; }
+        .impact-section h2 {
+            font-size: clamp(1.4rem, 4vw, 1.8rem);
+            color: var(--text-main);
+            border-bottom: 2px solid var(--primary-red);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .impact-item {
+            margin-bottom: 20px;
+            padding: clamp(15px, 3vw, 20px);
+            border-radius: 12px;
+            background-color: #fff5f5;
+            border-left: 5px solid var(--primary-red);
+        }
+
+        .impact-item h3 { color: var(--primary-red); font-size: clamp(1.1rem, 3vw, 1.3rem); margin-bottom: 8px; }
+        .impact-item p { color: var(--text-secondary); font-size: clamp(0.95rem, 2.5vw, 1.1rem); line-height: 1.7; }
+
+        /* 新增：数据分析板块 */
+        .analysis-section {
+            text-align: left;
+            margin-bottom: 40px;
+            padding: 25px;
+            background-color: var(--light-bg);
+            border-radius: 16px;
+            border: 1px solid #eee;
+        }
+
+        .analysis-section h2 {
+            font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+            color: var(--text-main);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .analysis-list { list-style: none; }
+        .analysis-list li {
+            font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.6;
+        }
+        .analysis-list li::before {
+            content: "•";
+            color: var(--primary-red);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        .analysis-list strong { color: var(--text-main); font-weight: 700; }
+
+        /* 正文说明 */
+        .content-section { text-align: left; margin-bottom: 40px; }
+        .content-section p { font-size: clamp(0.95rem, 2.5vw, 1.1rem); color: var(--text-secondary); margin-bottom: 20px; }
+        .highlight-text {
+            font-weight: bold;
+            color: var(--text-main);
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            display: block;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        /* 底部警告 */
+        .warning-block {
+            background-color: #fff5f5;
+            border-left: 5px solid var(--primary-red);
+            padding: clamp(15px, 3vw, 25px);
+            text-align: left;
+            border-radius: 0 10px 10px 0;
+            margin-top: 40px;
+        }
+        .warning-block p { font-size: clamp(1rem, 3vw, 1.2rem); font-weight: bold; color: var(--text-main); margin: 0; }
+
+        .copyright { margin-top: 60px; font-size: 0.85rem; color: #999; letter-spacing: 1px; }
+
+        @media (max-width: 600px) {
+            .analysis-section { padding: 15px; }
+            .analysis-list li { padding-left: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="main-title">这款游戏很快就<br>不再属于您。</h1>
+
+        <div class="countdown-box" id="countdownBox">
+            <div class="timer-display" id="timer">00天 00时 00分 00秒</div>
+            <div class="timer-label" id="timerLabel">后维护开始</div>
+        </div>
+
+        <div class="impact-section">
+            <h2>这会导致什么？</h2>
+            <div class="impact-item">
+                <h3>针对玩家</h3>
+                <p>导致无法“抽1井1”。虽然新机制有时能让人更容易抽出角色，但“抽出即清空点数”的霸王条款，使得玩家无法再通过积攒点数来稳定兑换。这在一定程度上极大地增加了角色的获取难度和抚养成本。</p>
+            </div>
+            <div class="impact-item">
+                <h3>针对 Yostar / Nexon</h3>
+                <p>此次对日服《蔚蓝档案》卡池机制的改动，引发了玩家社区的强烈不满。这种不满情绪可能迅速发酵，导致大规模的退坑潮，最终对游戏的长期运营造成毁灭性打击。</p>
+            </div>
+        </div>
+
+        <!-- 新增：理性分析板块 -->
+        <div class="analysis-section">
+            <h2>📊 理性分析：数据告诉我们什么？</h2>
+            <ul class="analysis-list">
+                <li>在新抽卡机制下，在 2UP 池拿到 2 个 PU 的平均期望抽数减少了 <strong>12抽</strong>，这还没算上新增的返奖励功能。</li>
+                <li>新机制的方差相比原来扩大到了 <strong>5倍</strong>。尽管期望降低，但概率分布发生剧变：
+                    <br>• 老机制：1井内拿到2PU概率约 <strong>75%</strong>，300抽内约 <strong>88%</strong>；
+                    <br>• 新机制：1井内拿到2PU概率降至 <strong>64%</strong>，300抽内升至 <strong>95%</strong>。
+                    <br>新机制收工节点期望降低，但中位数增加，分布更加分散。
+                </li>
+                <li>每 100 小保底的米池机制客观上减少了“190出UP导致要再抽200”的极端情况，但整体抗风险能力确实更差。</li>
+                <li>保底机制改为“替换那一抽的结果”而非直接兑换学生，不再有补井拿碎片和换井渣一说，但水位可继承给同类卡池。</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <p>
+                Yostar 运营的日服《蔚蓝档案》宣布，将于 7 月 29 日调整卡池机制，彻底移除 200 点数自选兑换 UP 功能！
+            </p>
+            <span class="highlight-text">Nexon正在将基沃托斯推向深渊！</span>
+            <p>
+                这一次调整对Nexon/Yostar来说是一次极度商业化的决策，的确增加了新的极端情况与担忧。但还请各位先冷静下来，理性思考。
+            </p>
+            <p>
+                请您在这最后的时间窗口内，尽可能向日服官方及Nexon相关方表达您的立场！如果您不希望我们的游戏变成这样！
+            </p>
+        </div>
+
+        <div class="warning-block">
+            <p>若玩家不发出声音，则基沃托斯的未来将被悄然改写。</p>
+        </div>
+
+        <div class="copyright">© ZMXC</div>
+    </div>
+
+    <script>
+        const targetDate = new Date();
+        const currentYear = targetDate.getFullYear();
+        targetDate.setFullYear(currentYear, 6, 29);
+        targetDate.setHours(11, 0, 0, 0);
+
+        const timerElement = document.getElementById('timer');
+        const labelElement = document.getElementById('timerLabel');
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = targetDate.getTime() - now;
+
+            if (distance < 0) {
+                timerElement.innerHTML = "倒计时已结束";
+                timerElement.classList.add('ended-message');
+                labelElement.style.display = 'none';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            const d = String(days).padStart(2, '0');
+            const h = String(hours).padStart(2, '0');
+            const m = String(minutes).padStart(2, '0');
+            const s = String(seconds).padStart(2, '0');
+
+            timerElement.innerText = `${d}天 ${h}时 ${m}分 ${s}秒`;
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
