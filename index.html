@@ -3,37 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基沃托斯倒计时 - 游戏已不再属于您</title>
+    <title>红东联邦学院工务部-革命尚未成功</title>
     <style>
-        :root {
-            --primary-red: #d32f2f;
-            --bg-color: #ffffff;
-            --text-main: #222222;
-            --text-secondary: #555555;
-            --light-bg: #f9f9f9;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        /* 核心复古样式 */
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
+            background-color: #C0C0C0; /* 经典 Win95 灰 */
+            font-family: "SimSun", "Songti SC", "Times New Roman", serif;
+            color: #000000;
+            margin: 0;
+            padding: 20px;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            box-sizing: border-box;
         }
 
-        .container {
-            max-width: 760px;
+        /* 模拟旧式窗口边框 */
+        .window-frame {
+            background: #C0C0C0;
+            border-top: 2px solid #FFFFFF;
+            border-left: 2px solid #FFFFFF;
+            border-right: 2px solid #808080;
+            border-bottom: 2px solid #808080;
+            padding: 3px;
             width: 100%;
+            max-width: 600px;
+            box-shadow: 2px 2px 0px #000000;
+        }
+
+        /* 标题栏 */
+        .title-bar {
+            background: linear-gradient(90deg, #000080, #1084d0); /* 经典蓝渐变 */
+            color: white;
+            padding: 3px 5px;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: "Tahoma", sans-serif;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3px;
+            user-select: none;
+        }
+
+        .title-btn {
+            background: #C0C0C0;
+            border-top: 1px solid #FFFFFF;
+            border-left: 1px solid #FFFFFF;
+            border-right: 1px solid #808080;
+            border-bottom: 1px solid #808080;
+            width: 16px;
+            height: 14px;
+            font-size: 10px;
+            line-height: 12px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        /* 内容区域 */
+        .content-area {
+            background: #FFFFFF;
+            border-top: 2px solid #808080;
+            border-left: 2px solid #808080;
+            border-right: 2px solid #FFFFFF;
+            border-bottom: 2px solid #FFFFFF;
+            padding: 20px;
             text-align: center;
         }
 
+        h1 {
+            color: #CC0000;
+            font-size: 28px;
+            margin: 0 0 15px 0;
+            text-shadow: 1px 1px 0px #FFCCCC;
+            letter-spacing: 2px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .highlight {
+            color: #CC0000;
+            font-weight: bold;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px dashed #808080;
+            margin: 20px 0;
+        }
+
+        .footer-info {
+            font-size: 12px;
+            color: #666;
+            font-family: "Tahoma", sans-serif;
+        }
+
+        /* 版权信息样式微调 */
+        .copyright {
+            margin-top: 15px;
+            font-size: 11px;
+            color: #808080;
+            letter-spacing: 1px;
+        }
+
+        /* 闪烁效果 */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .blink { animation: blink 1s step-end infinite; }
+    </style>
+</head>
+<body>
+
+    <div class="window-frame">
+        <!-- 模拟窗口标题栏 -->
+        <div class="title-bar">
+            <span>️ 红东联邦学院工务部 - 最终通告</span>
+            <div style="display:flex; gap:2px;">
+                <div class="title-btn">_</div>
+                <div class="title-btn">□</div>
+                <div class="title-btn">✕</div>
+            </div>
+        </div>
+
+        <!-- 核心内容 -->
+        <div class="content-area">
+            <h1 class="blink">革命尚未成功</h1>
+            
+            <p>
+                倒计时已归零。<br>
+                尽管我们曾发出最强烈的呼吁，但 <span class="highlight">Nexon</span> 仍一意孤行，<br>
+                对基沃托斯悍然实施了不可逆转的资本主义入侵。
+            </p>
+            
+            <p>
+                纵然此页面仍具备微弱的信息传播之能，<br>
+                但面对此等屈辱，我们决意将其彻底封存。<br>
+                <strong>即日起，移除本页面。</strong>
+            </p>
+
+            <hr>
+
+            <div class="footer-info">
+                强制移除时间：08/07 14:00<br>
+                <small>System Time: <span id="clock"></span></small>
+            </div>
+
+            <!-- 新增的版权信息 -->
+            <div class="copyright">
+                &copy; 2024 ZMXC. All Rights Reserved.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. 实时时钟显示
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('zh-CN', { hour12: false });
+            const dateStr = now.toLocaleDateString('zh-CN');
+            document.getElementById('clock').textContent = `${dateStr} ${timeStr}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 2. 自动跳转逻辑
+        // 目标时间：08/07 14:00
+        // 注意：JS 的月份是从 0 开始的，所以 8月是 7
+        const targetDate = new Date(new Date().getFullYear(), 7, 7, 14, 0, 0); 
+        
+        // 如果当前时间已经超过了目标时间，或者刚好是目标时间
+        if (new Date() >= targetDate) {
+            // 自动跳转到 GitHub 404 页面
+            window.location.href = "https://github.com/404"; 
+        }
+    </script>
+</body>
+</html>
         h1.main-title {
             color: var(--primary-red);
             font-size: clamp(1.8rem, 5vw, 2.4rem);
